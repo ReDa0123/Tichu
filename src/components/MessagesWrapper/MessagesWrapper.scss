@@ -1,0 +1,36 @@
+.MessagesWrapper {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p:nth-child(n + 1) {
+    opacity: 1;
+  }
+
+  p:nth-child(n + 2) {
+    opacity: 0.8;
+  }
+
+  p:nth-child(n + 3) {
+    opacity: 0.6;
+  }
+
+  p:nth-child(n + 4) {
+    opacity: 0.4;
+  }
+
+  p:nth-child(n + 5) {
+    opacity: 0.2;
+  }
+
+  p:nth-child(n + 6) {
+    opacity: 0;
+  }
+}

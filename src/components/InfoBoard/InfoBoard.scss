@@ -1,0 +1,15 @@
+.InfoBoard {
+  box-shadow: 0 0 1rem rgba(183, 0, 229, 0.8);
+  padding: 1rem;
+  background-color: #3d1212;
+  color: #fff;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+
+  &-nameOfYourTeam {
+    font-size: 0.75em;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+}
