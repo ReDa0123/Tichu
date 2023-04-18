@@ -156,8 +156,8 @@ const GameContainer = () => {
       <div className="CardsInHand-others">
         {cardInOtherPlayersHands.map(({ numberOfCards, id }) => (
           <div key={id}>
-            {id}
             <Card hidden value={numberOfCards} />
+            {id}
           </div>
         ))}
       </div>
