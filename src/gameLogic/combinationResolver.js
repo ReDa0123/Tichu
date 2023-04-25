@@ -172,7 +172,7 @@ export const isCombinationStraight = (playedCards) => {
   );
 };
 
-export const isStraightBomb = compose(
+const isStraightBomb = compose(
   equalsToOne,
   length,
   uniq,
