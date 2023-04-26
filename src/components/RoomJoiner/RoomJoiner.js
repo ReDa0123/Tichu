@@ -5,6 +5,7 @@ import { isNilOrEmpty } from "ramda-extension";
 import { addMessage, setPlayers } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlayers } from "../../redux/selectors";
+import "./RoomJoiner.scss";
 
 const RoomSelect = () => {
   const socket = useSocket();
@@ -45,7 +46,7 @@ const RoomWaiter = ({ setStatus }) => {
   const socket = useSocket();
 
   return (
-    <div>
+    <div className="RoomSelect">
       <div>Waiting for players...</div>
       <div>Currently players in room: {numPlayers} / 4</div>
       <button
