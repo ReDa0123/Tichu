@@ -1,6 +1,6 @@
 import {
   ascend,
-  compose,
+  equals,
   head,
   includes,
   length,
@@ -32,9 +32,9 @@ export const getDisplayed = o(propOr([], "displayed"), getMessages);
 
 export const getGameState = propOr({}, [GAME_STATE_REDUCER_NAME]);
 export const getGamePart = o(prop("gamePart"), getGameState);
-export const getCards = o(prop("cards"), getGameState);
-export const getTeams = o(prop("teams"), getGameState);
-export const getTurnOrder = o(prop("turnOrder"), getGameState);
+export const getCards = o(propOr({}, "cards"), getGameState);
+export const getTeams = o(propOr([], "teams"), getGameState);
+export const getTurnOrder = o(propOr([], "turnOrder"), getGameState);
 export const getOnPlay = o(prop("onPlay"), getGameState);
 export const getCardsPlayedThisTurn = o(
   prop("cardsPlayedThisTurn"),
@@ -44,8 +44,9 @@ export const getCurrentCombination = o(
   prop("currentCombination"),
   getGameState
 );
-
+export const getUsernames = o(prop("usernames"), getGameState);
 export const getSendDeck = o(prop("sendDeck"), getGameState);
+export const getTichuFromGameState = o(propOr({}, "tichu"), getGameState);
 
 export const getCardsInHand = createSelector(
   [getSocketId, getCards],
@@ -84,10 +85,7 @@ export const getNumberOfCardsInAllOtherHands = createSelector(
     )
 );
 
-export const isUserOnPlay = createSelector(
-  [getSocketId, getOnPlay],
-  (id, onPlay) => onPlay === id
-);
+export const isUserOnPlay = createSelector([getSocketId, getOnPlay], equals);
 
 export const isFirstPlayOfTheTurn = createSelector(
   getCardsPlayedThisTurn,
@@ -104,17 +102,16 @@ export const getNameOfYourTeam = createSelector(
   }
 );
 
-export const getActiveTichus = compose(
-  mapObjIndexed((tichu, id) => {
-    if (tichu) {
-      return `${id}: ${
-        tichu === GAME_PARTS.BIG_TICHU ? "Grand Tichu" : "Tichu"
-      }`;
-    }
-    return null;
-  }),
-  propOr({}, "tichu"),
-  getGameState
+export const getActiveTichus = createSelector(
+  [getTichuFromGameState, getUsernames],
+  (tichu, usernames) =>
+    mapObjIndexed((tichu, id) =>
+      tichu
+        ? `${usernames[id]}: ${
+            tichu === GAME_PARTS.BIG_TICHU ? "Grand Tichu" : "Tichu"
+          }`
+        : null
+    )(tichu)
 );
 
 export const isBigTichuActive = createSelector(

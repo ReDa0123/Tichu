@@ -4,6 +4,7 @@ import {
   getNameOfYourTeam,
   getOnPlay,
   getTeamsScore,
+  getUsernames,
 } from "../../redux/selectors";
 import "./InfoBoard.scss";
 import { isNilOrEmpty } from "ramda-extension";
@@ -14,6 +15,7 @@ const InfoBoard = () => {
   const currentPlayer = useSelector(getOnPlay);
   const tichus = useSelector(getActiveTichus);
   const nameOfYourTeam = useSelector(getNameOfYourTeam);
+  const usernames = useSelector(getUsernames);
 
   return (
     <div className="InfoBoard">
@@ -30,7 +32,9 @@ const InfoBoard = () => {
       </div>
       <div>
         Current player:
-        <div>{isNilOrEmpty(currentPlayer) ? "None" : currentPlayer}</div>
+        <div>
+          {isNilOrEmpty(currentPlayer) ? "None" : usernames[currentPlayer]}
+        </div>
       </div>
       <div>
         Actives Tichus:{" "}

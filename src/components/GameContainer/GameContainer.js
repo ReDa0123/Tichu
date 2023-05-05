@@ -7,6 +7,7 @@ import {
   getCurrentCombination,
   getSendDeck,
   getFirstEightCardsInHand,
+  getUsernames,
 } from "../../redux/selectors";
 import Card from "../Card";
 import { includes, propEq } from "ramda";
@@ -48,6 +49,7 @@ const GameContainer = () => {
   const isOnPlay = useSelector(isUserOnPlay);
   const currentRoundCombination = useSelector(getCurrentCombination);
   const shouldSendDeck = useSelector(getSendDeck);
+  const usernames = useSelector(getUsernames);
 
   const selectCard = useCallback(
     (card) => {
@@ -157,7 +159,7 @@ const GameContainer = () => {
         {cardInOtherPlayersHands.map(({ numberOfCards, id }) => (
           <div key={id}>
             <Card hidden value={numberOfCards} />
-            {id}
+            {usernames[id]}
           </div>
         ))}
       </div>

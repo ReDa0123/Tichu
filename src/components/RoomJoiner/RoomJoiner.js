@@ -11,20 +11,25 @@ const RoomSelect = () => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const [roomId, setRoomId] = useState("");
+  const [name, setName] = useState();
 
-  const joinRoom = useCallback(
-    (roomId) => {
-      if (isNilOrEmpty(roomId)) return;
-      socket.emit("joinRoom", roomId);
-    },
-    [socket]
-  );
+  const joinRoom = useCallback(() => {
+    if (isNilOrEmpty(roomId) || isNilOrEmpty(name)) {
+      dispatch(addMessage("Fill in name and Room ID"));
+      return;
+    }
+    socket.emit("joinRoom", { roomId, name });
+  }, [socket, dispatch, name, roomId]);
 
   useEffect(() => {
     socket.on("roomFull", () => dispatch(addMessage("room full")));
+    socket.on("sameName", () =>
+      dispatch(addMessage("A player in this room has the same name"))
+    );
 
     return () => {
       socket.off("roomFull");
+      socket.off("sameName");
     };
   }, [dispatch, socket]);
 
@@ -36,7 +41,12 @@ const RoomSelect = () => {
         placeholder="Room ID"
         onChange={(e) => setRoomId(e.target.value)}
       />
-      <button onClick={() => joinRoom(roomId)}>Join</button>
+      <input
+        type="text"
+        placeholder="Name"
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button onClick={joinRoom}>Join</button>
     </div>
   );
 };
